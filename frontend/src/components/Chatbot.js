@@ -1,14 +1,16 @@
 // client/src/components/Chatbot.js
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Paper, IconButton, TextField, Typography, Box } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
 const Chatbot = () => {
   const [open, setOpen] = useState(false);
   const [conversation, setConversation] = useState([]); // Each item: { sender: 'user'|'bot', message: string }
   const [input, setInput] = useState('');
+  const chatEndRef = useRef(null);
 
   const toggleChat = () => {
     setOpen(!open);
@@ -29,6 +31,12 @@ const Chatbot = () => {
       setConversation(prev => [...prev, botMessage]);
     }
   };
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [conversation]);
 
   return (
     <>
@@ -74,10 +82,11 @@ const Chatbot = () => {
                     borderRadius: '10px',
                   }}
                 >
-                  {msg.message}
+                  <ReactMarkdown>{msg.message}</ReactMarkdown>
                 </Typography>
               </Box>
             ))}
+            <div ref={chatEndRef} />
           </Box>
           <TextField
             fullWidth

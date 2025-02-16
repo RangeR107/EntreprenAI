@@ -50,6 +50,32 @@ app.post('/api/chat', async (req, res) => {
   res.json({ generated_text: completion });
 });
 
+// AI Advertisement endpoint
+app.post('/api/generate-ad', async (req, res) => {
+  const { prompt } = req.body;
+
+  try {
+    const completion = await groq.chat.completions
+      .create({
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+        model: "llama-3.3-70b-versatile",
+      })
+      .then((chatCompletion) => {
+        return chatCompletion.choices[0]?.message?.content || "Error generating advertisement.";
+      });
+
+    res.json({ generated_text: completion });
+  } catch (error) {
+    console.error('Error generating advertisement:', error);
+    res.status(500).json({ error: 'Error generating advertisement.' });
+  }
+});
+
 app.get('/', (req, res) => {
   res.send('EntreprenAI Backend is running!');
 });
