@@ -40,7 +40,7 @@ EntreprenAI/ ├── client/ # React frontend application │ ├── public
 
 git clone https://github.com/your-username/EntreprenAI.git
 cd EntreprenAI
-
+change the branch to master
 Navigate to the backend folder:
 
 
