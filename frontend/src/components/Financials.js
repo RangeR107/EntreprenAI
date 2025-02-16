@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Typography, Container, TextField, Button, Box } from '@mui/material';
 import { Chart } from 'react-chartjs-2';
 import 'chart.js/auto';
-import * as tf from '@tensorflow/tfjs';
 
 const Financials = () => {
   const [expenses, setExpenses] = useState([]);
