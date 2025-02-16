@@ -27,9 +27,6 @@ EntreprenAI is an AI-driven web application designed to empower solo startup fou
 
 EntreprenAI/ ├── client/ # React frontend application │ ├── public/ │ ├── src/ │ │ ├── components/ # React components for dashboard modules and chatbot │ │ ├── App.js # Main app with routing and layout │ │ └── index.js # Entry point for the React app │ └── package.json ├── server/ # Node/Express backend application │ ├── index.js # Main server file with API endpoints │ ├── .env # Environment variables (e.g., GROQ_API_KEY) │ └── package.json └── README.md
 
-markdown
-Copy
-Edit
 
 ## Installation
 
@@ -40,59 +37,41 @@ Edit
 
 ### Clone the Repository
 
-```bash
+
 git clone https://github.com/your-username/EntreprenAI.git
 cd EntreprenAI
 Set Up the Backend
 Navigate to the server folder:
 
-bash
-Copy
-Edit
+
 cd server
 Install dependencies:
 
-bash
-Copy
-Edit
 npm install
 Create a .env file in the server folder and add your Groq API key:
 
-env
-Copy
-Edit
+
 GROQ_API_KEY=your_groq_api_key_here
 PORT=5001
 Start the backend server:
 
-bash
-Copy
-Edit
+
 node index.js
 Set Up the Frontend
 Open a new terminal and navigate to the client folder:
 
-bash
-Copy
-Edit
+
 cd client
 Install dependencies:
 
-bash
-Copy
-Edit
+
 npm install
 Create a .env file in the client folder if needed (e.g., for API keys you might want to proxy):
 
-env
-Copy
-Edit
+
 REACT_APP_GROQ_API_KEY=your_groq_api_key_here
 Start the React development server:
 
-bash
-Copy
-Edit
 npm start
 Usage
 Dashboard Navigation:
@@ -121,9 +100,6 @@ Contributions are welcome! Feel free to fork the repository, create a branch, an
 License
 This project is licensed under the MIT License.
 
-yaml
-Copy
-Edit
 
 ---
 
