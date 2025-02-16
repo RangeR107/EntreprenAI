@@ -40,11 +40,11 @@ EntreprenAI/ ├── client/ # React frontend application │ ├── public
 
 git clone https://github.com/your-username/EntreprenAI.git
 cd EntreprenAI
-Set Up the Backend
-Navigate to the server folder:
+
+Navigate to the backend folder:
 
 
-cd server
+cd backend
 Install dependencies:
 
 npm install
@@ -53,15 +53,15 @@ Create a .env file in the server folder and add your Groq API key:
 
 GROQ_API_KEY=your_groq_api_key_here
 PORT=5001
-Start the backend server:
 
+Start the backend server:
 
 node index.js
 Set Up the Frontend
-Open a new terminal and navigate to the client folder:
+Open a new terminal and navigate to the frontend folder:
 
 
-cd client
+cd frontend
 Install dependencies:
 
 
@@ -71,7 +71,6 @@ Create a .env file in the client folder if needed (e.g., for API keys you might 
 
 REACT_APP_GROQ_API_KEY=your_groq_api_key_here
 Start the React development server:
-
 npm start
 Usage
 Dashboard Navigation:
