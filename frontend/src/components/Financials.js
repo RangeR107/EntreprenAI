@@ -13,6 +13,10 @@ const Financials = () => {
     setNewExpense({ name: '', amount: '' });
   };
 
+  const handleResetExpenses = () => {
+    setExpenses([]);
+  };
+
   const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
   const profit = parseFloat(sellingPrice) - totalExpenses;
 
@@ -73,7 +77,7 @@ const Financials = () => {
         <Typography variant="h6" gutterBottom>
           Unit Economics
         </Typography>
-        <Box width={300} height={300}>
+        <Box width={200} height={200}>
           <Chart type="pie" data={chartData} options={options} />
         </Box>
       </Box>
@@ -97,6 +101,9 @@ const Financials = () => {
       />
       <Button variant="contained" onClick={handleAddExpense} sx={{ marginBottom: 2 }}>
         Add Expense
+      </Button>
+      <Button variant="outlined" onClick={handleResetExpenses} sx={{ marginBottom: 2 }}>
+        Reset Expenses
       </Button>
     </Container>
   );
