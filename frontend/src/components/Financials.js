@@ -22,34 +22,14 @@ const Financials = () => {
     setExpenses([]);
   };
 
-  const handleCalculateScore = async () => {
+  const handleCalculateScore = () => {
     const revenueValue = parseFloat(revenue);
     const profitMarginValue = parseFloat(profitMargin);
     const growthRateValue = parseFloat(growthRate);
 
-    // Prepare the input data
-    const inputData = tf.tensor2d([[revenueValue, profitMarginValue, growthRateValue]]);
-
-    // Define a simple linear regression model
-    const model = tf.sequential();
-    model.add(tf.layers.dense({ units: 1, inputShape: [3] }));
-    model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
-
-    // Dummy training data (replace with actual historical data if available)
-    const xs = tf.tensor2d([
-      [100000, 20, 10],
-      [150000, 25, 15],
-      [200000, 30, 20],
-      [250000, 35, 25],
-    ]);
-    const ys = tf.tensor2d([[70], [75], [80], [85]]);
-
-    // Train the model
-    await model.fit(xs, ys, { epochs: 100 });
-
-    // Make a prediction
-    const prediction = model.predict(inputData);
-    setInvestorReadinessScore(prediction.dataSync()[0]);
+    // Simple heuristic for calculating investor readiness score
+    const score = (revenueValue * profitMarginValue * growthRateValue) / 100;
+    setInvestorReadinessScore(score);
   };
 
   const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
