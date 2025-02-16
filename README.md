@@ -48,7 +48,7 @@ cd backend
 Install dependencies:
 
 npm install
-Create a .env file in the server folder and add your Groq API key:
+Create a .env file in the backend folder and add your Groq API key:
 
 
 GROQ_API_KEY=your_groq_api_key_here
