@@ -11,7 +11,7 @@ import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 function App() {
   return (
     <Router>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: 'black' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             EntreprenAI
