@@ -13,23 +13,32 @@ const Financials = () => {
   });
 
   const [newExpense, setNewExpense] = useState({ name: '', amount: '' });
+  const [sellingPrice, setSellingPrice] = useState('');
+  const [unitsSold, setUnitsSold] = useState('');
 
   const handleAddExpense = () => {
     setFinancialData((prevData) => ({
       ...prevData,
+      expenses: `₹${parseFloat(prevData.expenses.replace('₹', '')) + parseFloat(newExpense.amount)}`,
       [newExpense.name]: `₹${newExpense.amount}`, // Changed to rupee support
     }));
     setNewExpense({ name: '', amount: '' });
   };
 
+  const totalRevenue = parseFloat(sellingPrice) * parseFloat(unitsSold);
+  const totalExpenses = Object.entries(financialData)
+    .filter(([key]) => key !== 'bankBalance' && key !== 'profit' && key !== 'revenue')
+    .reduce((acc, [key, value]) => acc + parseFloat(value.replace('₹', '')), 0);
+  const profit = totalRevenue - totalExpenses;
+
   const chartData = {
-    labels: Object.keys(financialData),
+    labels: ['Expenses', 'Profit'],
     datasets: [
       {
-        label: 'Financial Data',
-        data: Object.values(financialData).map((value) => parseFloat(value.replace('₹', ''))),
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        label: 'Unit Economics',
+        data: [totalExpenses, profit],
+        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
         borderWidth: 1,
       },
     ],
@@ -67,7 +76,19 @@ const Financials = () => {
       <Button variant="contained" onClick={handleAddExpense}>
         Add Expense
       </Button>
-      <Chart type="bar" data={chartData} />
+      <TextField
+        label="Selling Price"
+        value={sellingPrice}
+        onChange={(e) => setSellingPrice(e.target.value)}
+        sx={{ marginRight: 2, marginTop: 2 }}
+      />
+      <TextField
+        label="Units Sold"
+        value={unitsSold}
+        onChange={(e) => setUnitsSold(e.target.value)}
+        sx={{ marginRight: 2, marginTop: 2 }}
+      />
+      <Chart type="pie" data={chartData} />
     </Container>
   );
 };
