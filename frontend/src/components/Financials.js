@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Typography, Container, TextField, Button, Box } from '@mui/material';
 import { Chart } from 'react-chartjs-2';
 import 'chart.js/auto';
+import * as tf from '@tensorflow/tfjs';
 
 const Financials = () => {
   const [expenses, setExpenses] = useState([]);
   const [newExpense, setNewExpense] = useState({ name: '', amount: '' });
   const [sellingPrice, setSellingPrice] = useState('');
+  const [revenue, setRevenue] = useState('');
+  const [profitMargin, setProfitMargin] = useState('');
+  const [growthRate, setGrowthRate] = useState('');
+  const [investorReadinessScore, setInvestorReadinessScore] = useState(null);
 
   const handleAddExpense = () => {
     setExpenses([...expenses, { name: newExpense.name, amount: parseFloat(newExpense.amount) }]);
@@ -15,6 +20,36 @@ const Financials = () => {
 
   const handleResetExpenses = () => {
     setExpenses([]);
+  };
+
+  const handleCalculateScore = async () => {
+    const revenueValue = parseFloat(revenue);
+    const profitMarginValue = parseFloat(profitMargin);
+    const growthRateValue = parseFloat(growthRate);
+
+    // Prepare the input data
+    const inputData = tf.tensor2d([[revenueValue, profitMarginValue, growthRateValue]]);
+
+    // Define a simple linear regression model
+    const model = tf.sequential();
+    model.add(tf.layers.dense({ units: 1, inputShape: [3] }));
+    model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
+
+    // Dummy training data (replace with actual historical data if available)
+    const xs = tf.tensor2d([
+      [100000, 20, 10],
+      [150000, 25, 15],
+      [200000, 30, 20],
+      [250000, 35, 25],
+    ]);
+    const ys = tf.tensor2d([[70], [75], [80], [85]]);
+
+    // Train the model
+    await model.fit(xs, ys, { epochs: 100 });
+
+    // Make a prediction
+    const prediction = model.predict(inputData);
+    setInvestorReadinessScore(prediction.dataSync()[0]);
   };
 
   const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
@@ -105,6 +140,35 @@ const Financials = () => {
       <Button variant="outlined" onClick={handleResetExpenses} sx={{ marginBottom: 2 }}>
         Reset Expenses
       </Button>
+      <Typography variant="h6" gutterBottom>
+        Investor Readiness Score
+      </Typography>
+      <TextField
+        label="Revenue"
+        value={revenue}
+        onChange={(e) => setRevenue(e.target.value)}
+        sx={{ marginRight: 2, marginBottom: 2 }}
+      />
+      <TextField
+        label="Profit Margin (%)"
+        value={profitMargin}
+        onChange={(e) => setProfitMargin(e.target.value)}
+        sx={{ marginRight: 2, marginBottom: 2 }}
+      />
+      <TextField
+        label="Growth Rate (%)"
+        value={growthRate}
+        onChange={(e) => setGrowthRate(e.target.value)}
+        sx={{ marginRight: 2, marginBottom: 2 }}
+      />
+      <Button variant="contained" onClick={handleCalculateScore} sx={{ marginBottom: 2 }}>
+        Calculate Score
+      </Button>
+      {investorReadinessScore !== null && (
+        <Typography variant="h6" gutterBottom>
+          Investor Readiness Score: {investorReadinessScore.toFixed(2)}
+        </Typography>
+      )}
     </Container>
   );
 };
